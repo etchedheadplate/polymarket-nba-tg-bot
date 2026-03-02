@@ -3,36 +3,34 @@ from typing import Any
 
 from src.bot.bot import create_bot
 from src.config import settings
-from src.queue.connection import RabbitMQConnection
-from src.queue.consumer import RabbitMQConsumer
-from src.queue.producer import RabbitMQProducer
+from src.queue import RabbitMQConnection, RabbitMQConsumer
+from src.tasks import Registry, Result
 
 
 async def main():
     connection = RabbitMQConnection()
-    consumer = RabbitMQConsumer(connection, service_name=settings.SERVICE_NAME)
-    producer = RabbitMQProducer(connection)
+    consumer = RabbitMQConsumer(connection)
+    registry = Registry()
 
     bot, dp = await create_bot(settings.TG_BOT_TOKEN)
 
     consumer_task: asyncio.Task[Any] | None = None
 
-    async def handle_message(msg: dict[str, Any]):
-        result: dict[str, Any] = {"status": "received"}
-        await producer.send_message(
-            settings.EXCHANGE_NAME,
-            settings.RK_ORACLE_QUERY,
-            result,
-        )
+    async def handle_message(msg: dict[str, Any]) -> None:
+        result = Result(**msg)
+        registry.resolve(result)
 
     @dp.startup()
     async def on_startup(**kwargs: Any) -> None:  # pyright: ignore[reportUnusedFunction]
         nonlocal consumer_task
+        dp["connection"] = connection
+        dp["registry"] = registry
+
         consumer_task = asyncio.create_task(
             consumer.consume(
-                settings.EXCHANGE_NAME,
-                settings.RK_ORACLE_RESPONSE,
-                handle_message,
+                exchange_name=settings.EXCHANGE_NAME,
+                routing_key=f"{settings.QUEUE_TGBOT}.{settings.RK_RESPONSE}",
+                callback=handle_message,
             )
         )
 
