@@ -24,8 +24,8 @@ class Task(Message):
     name: str
 
 
-class ScheduleTask(Task):
-    name: str = "schedule"
+class EventsTask(Task):
+    name: str = "events"
 
 
 class UpdateTask(Task):

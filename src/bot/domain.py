@@ -1,0 +1,39 @@
+from enum import StrEnum
+
+
+class NBATeam(StrEnum):
+    PHI = "76ers"
+    MIL = "Bucks"
+    CHI = "Bulls"
+    CLE = "Cavaliers"
+    BOS = "Celtics"
+    LAC = "Clippers"
+    MEM = "Grizzlies"
+    ATL = "Hawks"
+    MIA = "Heat"
+    CHA = "Hornets"
+    UTA = "Jazz"
+    SAC = "Kings"
+    NYK = "Knicks"
+    LAL = "Lakers"
+    ORL = "Magic"
+    DAL = "Mavericks"
+    BKN = "Nets"
+    DEN = "Nuggets"
+    IND = "Pacers"
+    NOP = "Pelicans"
+    DET = "Pistons"
+    TOR = "Raptors"
+    HOU = "Rockets"
+    SAS = "Spurs"
+    PHX = "Suns"
+    OKC = "Thunder"
+    MIN = "Timberwolves"
+    POR = "Blazers"
+    GSW = "Warriors"
+    WAS = "Wizards"
+
+
+class NBATeamSide(StrEnum):
+    GUEST = "guest"
+    HOST = "host"

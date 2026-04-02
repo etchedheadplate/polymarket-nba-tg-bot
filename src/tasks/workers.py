@@ -5,7 +5,7 @@ from typing import Any
 from src.config import settings
 from src.queue import RabbitMQConnection, RabbitMQProducer
 from src.tasks.registry import Registry
-from src.tasks.schemas import ReportTask, Result, ScheduleTask, Task, UpdateTask
+from src.tasks.schemas import EventsTask, ReportTask, Result, Task, UpdateTask
 
 
 class Worker(ABC):
@@ -27,7 +27,7 @@ class Worker(ABC):
     async def run(self, **params: Any) -> dict[str, Any]:
         task = self._construct_task(**params)
         future = self.registry.register(task.id)
-
+        print(f"task.model_dump()={task.model_dump()}")
         await self.producer.send_message(
             exchange_name=settings.EXCHANGE_NAME,
             routing_key=f"{self._queue}.{settings.RK_REQUEST}",
@@ -37,18 +37,11 @@ class Worker(ABC):
         return await future
 
 
-class ScheduleWorker(Worker):
-    _queue = settings.QUEUE_ORACLE
+class EventsWorker(Worker):
+    _queue = settings.QUEUE_REPORT
 
     def _construct_task(self, **params: Any) -> Task:
-        return ScheduleTask(id=self._create_id(), payload=dict(params))
-
-
-class UpdateWorker(Worker):
-    _queue = settings.QUEUE_ORACLE
-
-    def _construct_task(self, **params: Any) -> Task:
-        return UpdateTask(id=self._create_id(), payload=dict(params))
+        return EventsTask(id=self._create_id(), payload=dict(params))
 
 
 class ReportWorker(Worker):
@@ -56,3 +49,10 @@ class ReportWorker(Worker):
 
     def _construct_task(self, **params: Any) -> Task:
         return ReportTask(id=self._create_id(), payload=dict(params))
+
+
+class UpdateWorker(Worker):
+    _queue = settings.QUEUE_ORACLE
+
+    def _construct_task(self, **params: Any) -> Task:
+        return UpdateTask(id=self._create_id(), payload=dict(params))

@@ -1,9 +1,9 @@
 from aiogram import Bot, Dispatcher
 
-from src.bot.reports import reports_router
-from src.bot.schedule import schedule_router
-from src.bot.start import start_router
-from src.bot.update import update_router
+from src.bot.commands.events import schedule_router
+from src.bot.commands.reports import reports_router
+from src.bot.commands.start import start_router
+from src.bot.commands.update import update_router
 
 
 async def create_bot(token: str):
