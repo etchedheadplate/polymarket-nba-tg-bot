@@ -1,12 +1,7 @@
-from pathlib import Path
-
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    SERVICE_NAME: str = "nba-tgbot"
-    LOG_DIR: Path = Path("logs")
-
     TG_BOT_TOKEN: str
 
     RABBITMQ_HOST: str = "localhost"
