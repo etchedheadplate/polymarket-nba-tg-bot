@@ -29,7 +29,7 @@ async def main():
         consumer_task = asyncio.create_task(
             consumer.consume(
                 exchange_name=settings.EXCHANGE_NAME,
-                routing_key=f"{settings.QUEUE_TGBOT}.{settings.RK_RESPONSE}",
+                routing_key=f"{settings.QUEUE_TG_BOT}.{settings.RK_RESPONSE}",
                 callback=handle_message,
             )
         )

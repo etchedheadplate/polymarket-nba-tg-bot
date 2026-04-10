@@ -4,23 +4,23 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    SERVICE_NAME: str
-    LOG_DIR: Path
+    SERVICE_NAME: str = "nba-tgbot"
+    LOG_DIR: Path = Path("logs")
 
     TG_BOT_TOKEN: str
 
-    RABBITMQ_HOST: str
-    RABBITMQ_PORT: int
-    RABBITMQ_USER: str
-    RABBITMQ_PASSWORD: str
-    RABBITMQ_VHOST: str
+    RABBITMQ_HOST: str = "localhost"
+    RABBITMQ_PORT: int = 5672
+    RABBITMQ_USER: str = "guest"
+    RABBITMQ_PASSWORD: str = "guest"
+    RABBITMQ_VHOST: str = "/"
 
-    EXCHANGE_NAME: str
-    QUEUE_TGBOT: str
-    QUEUE_ORACLE: str
-    QUEUE_REPORT: str
-    RK_REQUEST: str
-    RK_RESPONSE: str
+    EXCHANGE_NAME: str = "polymarket.nba"
+    QUEUE_TG_BOT: str = "tg_bot"
+    QUEUE_ORACLE: str = "oracle"
+    QUEUE_REPORT: str = "reort"
+    RK_REQUEST: str = "request"
+    RK_RESPONSE: str = "response"
 
     model_config = SettingsConfigDict(env_file=".env")
 
