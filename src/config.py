@@ -13,7 +13,7 @@ class Settings(BaseSettings):
     EXCHANGE_NAME: str = "polymarket.nba"
     QUEUE_TG_BOT: str = "tg_bot"
     QUEUE_ORACLE: str = "oracle"
-    QUEUE_REPORT: str = "reort"
+    QUEUE_REPORT: str = "report"
     RK_REQUEST: str = "request"
     RK_RESPONSE: str = "response"
 
