@@ -8,7 +8,7 @@ Telegram bot service provides access to [Polymarket NBA Reports](https://github.
 
 ## Usage
 
-### Enviroment
+### Environment
 
 Create a `.env` file in the root of the repository using the `.env.example` template.
 
